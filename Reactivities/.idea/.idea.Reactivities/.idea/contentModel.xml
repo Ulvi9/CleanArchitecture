@@ -30,6 +30,10 @@
       </e>
       <e p="Application" t="IncludeRecursive">
         <e p="Activities" t="Include">
+          <e p="Create.cs" t="Include" />
+          <e p="Delete.cs" t="Include" />
+          <e p="Details.cs" t="Include" />
+          <e p="Edit.cs" t="Include" />
           <e p="List.cs" t="Include" />
         </e>
         <e p="Application.csproj" t="IncludeRecursive" />
