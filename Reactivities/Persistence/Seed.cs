@@ -1,18 +1,72 @@
-﻿using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace Persistence
 {
-   public class Seed
+    public class Seed
     {
-        public static void SeedData(DataContext context)
+        public static async Task SeedData(DataContext context,
+            UserManager<AppUser> userManager)
         {
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
+                {
+                    new AppUser
+                    {
+                        Id = "a",
+                        DisplayName = "Bob",
+                        UserName = "bob",
+                        Email = "bob@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "b",
+                        DisplayName = "Jane",
+                        UserName = "jane",
+                        Email = "jane@test.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "c",
+                        DisplayName = "Tom",
+                        UserName = "tom",
+                        Email = "tom@test.com"
+                    },
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
+                }
+            }
+
             if (!context.Activities.Any())
             {
-                var activities = new List<Activity> {
+                var activities = new List<Activity>
+                {
+                    new Activity
+                    {
+                        Title = "Past Activity 1",
+                        Date = DateTime.Now.AddMonths(-2),
+                        Description = "Activity 2 months ago",
+                        Category = "drinks",
+                        City = "London",
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(-2)
+                            }
+                        }
+                    },
                     new Activity
                     {
                         Title = "Past Activity 2",
@@ -20,7 +74,22 @@ namespace Persistence
                         Description = "Activity 1 month ago",
                         Category = "culture",
                         City = "Paris",
-                        Venue = "The Louvre"
+                        Venue = "The Louvre",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(-1)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(-1)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -29,7 +98,22 @@ namespace Persistence
                         Description = "Activity 1 month in future",
                         Category = "music",
                         City = "London",
-                        Venue = "Wembly Stadium"
+                        Venue = "Wembly Stadium",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(1)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(1)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -38,7 +122,22 @@ namespace Persistence
                         Description = "Activity 2 months in future",
                         Category = "food",
                         City = "London",
-                        Venue = "Jamies Italian"
+                        Venue = "Jamies Italian",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "c",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(2)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(2)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -47,7 +146,22 @@ namespace Persistence
                         Description = "Activity 3 months in future",
                         Category = "drinks",
                         City = "London",
-                        Venue = "Pub"
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(3)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "c",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(3)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -56,7 +170,16 @@ namespace Persistence
                         Description = "Activity 4 months in future",
                         Category = "culture",
                         City = "London",
-                        Venue = "British Museum"
+                        Venue = "British Museum",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(4)
+                            }
+                        }
                     },
                     new Activity
                     {
@@ -65,7 +188,22 @@ namespace Persistence
                         Description = "Activity 5 months in future",
                         Category = "drinks",
                         City = "London",
-                        Venue = "Punch and Judy"
+                        Venue = "Punch and Judy",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "c",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(5)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(5)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -74,7 +212,22 @@ namespace Persistence
                         Description = "Activity 6 months in future",
                         Category = "music",
                         City = "London",
-                        Venue = "O2 Arena"
+                        Venue = "O2 Arena",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(6)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(6)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -83,7 +236,22 @@ namespace Persistence
                         Description = "Activity 7 months in future",
                         Category = "travel",
                         City = "Berlin",
-                        Venue = "All"
+                        Venue = "All",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(7)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "c",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(7)
+                            },
+                        }
                     },
                     new Activity
                     {
@@ -92,15 +260,28 @@ namespace Persistence
                         Description = "Activity 8 months in future",
                         Category = "drinks",
                         City = "London",
-                        Venue = "Pub"
+                        Venue = "Pub",
+                        UserActivities = new List<UserActivity>
+                        {
+                            new UserActivity
+                            {
+                                AppUserId = "b",
+                                IsHost = true,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                            new UserActivity
+                            {
+                                AppUserId = "a",
+                                IsHost = false,
+                                DateJoined = DateTime.Now.AddMonths(8)
+                            },
+                        }
                     }
                 };
 
-                 context.Activities.AddRange(activities);
-                 context.SaveChanges();
-            };
-            
-
+                await context.Activities.AddRangeAsync(activities);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
